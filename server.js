@@ -18,8 +18,8 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'Vasquez',
   password: 'MVasquez#19',
-  database: 'cticBD',
-  port: 3307
+  database: 'cticDB',
+  port: 3306
 });
 
 connection.connect((err) => {
@@ -33,7 +33,7 @@ connection.connect((err) => {
 //Ruta para el manejo de sesiones
 app.post('/api/login', (req, res) => {
   const { usuario, password } = req.body;
-  const query = `SELECT * FROM Usuario WHERE usuario = '${usuario}' AND password = '${password}'`;
+  const query = `SELECT * FROM Usuarios WHERE usuario = '${usuario}' AND password = '${password}'`;
 
   connection.query(query, (err, results) => {
     if (err) {
