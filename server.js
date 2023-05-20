@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'Vasquez',
   password: 'MVasquez#19',
-  database: 'cticDB',
+  database: 'cticsac',
   port: 3306
 });
 
@@ -30,10 +30,11 @@ connection.connect((err) => {
   console.log('Conexion exitosa!');
 });
 
-//Ruta para el manejo de sesiones
+
+// Ruta para el manejo de sesiones
 app.post('/api/login', (req, res) => {
   const { usuario, password } = req.body;
-  const query = `SELECT * FROM Usuarios WHERE usuario = '${usuario}' AND password = '${password}'`;
+  const query = `SELECT * FROM usuario WHERE usuario = '${usuario}' AND password = '${password}'`;
 
   connection.query(query, (err, results) => {
     if (err) {
@@ -45,8 +46,9 @@ app.post('/api/login', (req, res) => {
       res.status(401).send('Credenciales incorrectas');
       return;
     }
-    req.session.user = { usuario };
-    res.status(200).send('Inicio de sesion exitoso!');
+    const user = results[0];
+    req.session.user = user;
+    res.status(200).json(user);
   });
 });
 
@@ -64,6 +66,21 @@ const requireLogin = (req, res, next) => {
   }
   next();
 };
+
+// Ruta para obtener todas las empresas
+app.get('/api/companies', (req, res) => {
+  const query = 'SELECT nombre, ruc, direccion, telefono FROM empresa';
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener las empresas:', err);
+      res.status(500).json({ error: 'Error en el servidor' });
+      return;
+    }
+
+    res.json(results);
+  });
+});
 
 // Ruta protegida que requiere inicio de sesión
 app.get('/api/protected', requireLogin, (req, res) => {
