@@ -27,7 +27,7 @@ connection.connect((err) => {
     console.error('Error al conectar con la BD:', err);
     return;
   }
-  console.log('Conexion exitosa!');
+  console.log('Conexión exitosa!');
 });
 
 
@@ -67,6 +67,12 @@ const requireLogin = (req, res, next) => {
   next();
 };
 
+
+// Ruta protegida que requiere inicio de sesión
+app.get('/api/protected', requireLogin, (req, res) => {
+  res.status(200).send('No puede continuar');
+});
+
 // Ruta para obtener todas las empresas
 app.get('/api/companies', (req, res) => {
   const query = 'SELECT nombre, ruc, direccion, telefono FROM empresa';
@@ -82,10 +88,68 @@ app.get('/api/companies', (req, res) => {
   });
 });
 
-// Ruta protegida que requiere inicio de sesión
-app.get('/api/protected', requireLogin, (req, res) => {
-  res.status(200).send('No puede continuar');
+// Ruta para crear una nueva empresa
+app.post('/api/companies', (req, res) => {
+  const { nombre, ruc, direccion, telefono } = req.body;
+  const query = `INSERT INTO empresa (nombre, ruc, direccion, telefono) VALUES ('${nombre}', '${ruc}', '${direccion}', '${telefono}')`;
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al crear la empresa:', err);
+      res.status(500).json({ error: 'Error en el servidor' });
+      return;
+    }
+
+    res.status(201).json({ message: 'Empresa creada exitosamente' });
+  });
 });
+
+// Ruta para obtener todos los empleados
+app.get('/api/usuario', (req, res) => {
+  const query = 'SELECT nombres, apellidos FROM usuario';
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener la lista de empleados:', err);
+      res.status(500).json({ error: 'Error en el servidor' });
+      return;
+    }
+
+    res.json(results);
+  });
+});
+
+// Ruta para crear un nuevo empleado
+app.post('/api/usuario', (req, res) => {
+  const { usuario, password, nombres, apellidos, correo, telefono, id_rol } = req.body;
+  const query = `INSERT INTO usuario (usuario, password, nombres, apellidos, correo, telefono, id_rol) VALUES ('${usuario}', '${password}', '${nombres}', '${apellidos}', '${correo}', '${telefono}', '${id_rol}')`;
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al crear el empleado:', err);
+      res.status(500).json({ error: 'Error en el servidor' });
+      return;
+    }
+
+    res.status(201).json({ message: 'Empleado creado exitosamente' });
+  });
+});
+
+// Ruta para obtener la lista de roles
+app.get('/api/roles', (req, res) => {
+  const query = 'SELECT id_rol, rol FROM rol';
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al obtener la lista de roles:', err);
+      res.status(500).json({ error: 'Error en el servidor' });
+      return;
+    }
+
+    res.json(results);
+  });
+});
+
 
 // Iniciar el servidor
 const PORT = process.env.PORT || 5000;
