@@ -1,4 +1,4 @@
-./DB/cticsac.sql
-./uploads/
-./node_modules/*
+./DB
+./uploads
+./node_modules
 ./vercel.json
