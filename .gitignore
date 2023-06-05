@@ -1,3 +1,4 @@
 # Ignorar archivos y directorios específicos
-/node_modules
+node_modules/
+uploads/
 .env
