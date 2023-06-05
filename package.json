@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js"
     "dev": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ciro Antony Vasquez  Mendez",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
