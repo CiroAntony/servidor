@@ -200,6 +200,21 @@ app.put("/api/companies/:id", upload.single("imagen"), (req, res) => {
   });
 });
 
+// Ruta para obtener todos los servicios
+app.get("/api/services", (req, res) => {
+  const query = "SELECT * FROM servicios";
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Error al obtener los servicios:", err);
+      res.status(500).json({ error: "Error en el servidor" });
+      return;
+    }
+
+    res.json(results);
+  });
+});
+
 // Ruta para obtener todos los empleados
 app.get("/api/usuario", (req, res) => {
   const query = "SELECT * FROM usuario";
