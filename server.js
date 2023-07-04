@@ -421,6 +421,100 @@ app.get("/api/companies/:id/imagen", (req, res) => {
   });
 });
 
+// Ruta para listar las preguntas de un servicio
+app.get("/api/preguntas/:serviceId", (req, res) => {
+  const { serviceId } = req.params;
+  const query = "SELECT * FROM preguntas WHERE servicio_id = ?";
+  const values = [serviceId];
+
+  connection.query(query, values, (err, results) => {
+    if (err) {
+      console.error("Error al obtener las preguntas:", err);
+      res.status(500).json({ error: "Error en el servidor" });
+      return;
+    }
+
+    res.json(results);
+  });
+});
+
+// Ruta para guardar un informe
+app.post("/api/informes", (req, res) => {
+  const { companyId, serviceId } = req.body;
+  const fechaCreacion = new Date();
+  const query =
+    "INSERT INTO informes (empresa_id, servicio_id, fecha_creacion) VALUES (?, ?, ?)";
+  const values = [companyId, serviceId, fechaCreacion];
+
+  connection.query(query, values, (err, results) => {
+    if (err) {
+      console.error("Error al guardar el informe:", err);
+      res.status(500).json({ error: "Error en el servidor" });
+      return;
+    }
+
+    const informeId = results.insertId; // Obtener el id_informe generado
+    res.json({ id_informe: informeId }); // Devolver el id_informe al cliente
+  });
+});
+
+// Ruta para guardar las respuestas
+app.post("/api/respuestas", (req, res) => {
+  const { informeId, respuestas } = req.body;
+  const query =
+    "INSERT INTO respuestas (informe_id, pregunta_id, respuesta) VALUES ?";
+  const values = respuestas.map((respuesta) => [
+    informeId,
+    respuesta.pregunta_id,
+    respuesta.respuesta,
+  ]);
+
+  connection.query(query, [values], (err, results) => {
+    if (err) {
+      console.error("Error al guardar las respuestas:", err);
+      res.status(500).json({ error: "Error en el servidor" });
+      return;
+    }
+
+    res.json(results);
+  });
+});
+
+// Ruta para obtener los informes de una empresa y un servicio específico
+app.get("/api/informes/:companyId/:serviceId", (req, res) => {
+  const { companyId, serviceId } = req.params;
+  const query =
+    "SELECT id_informe AS informeId, fecha_creacion AS fechaCreacion FROM informes WHERE empresa_id = ? AND servicio_id = ?";
+  const values = [companyId, serviceId];
+
+  connection.query(query, values, (err, results) => {
+    if (err) {
+      console.error("Error al obtener los informes:", err);
+      res.status(500).json({ error: "Error en el servidor" });
+      return;
+    }
+
+    res.json(results);
+  });
+});
+
+// Ruta para obtener las respuestas de un informe específico
+app.get("/api/respuestas/:informeId", (req, res) => {
+  const { informeId } = req.params;
+  const query = "SELECT * FROM respuestas WHERE informe_id = ?";
+  const values = [informeId];
+
+  connection.query(query, values, (err, results) => {
+    if (err) {
+      console.error("Error al obtener las respuestas:", err);
+      res.status(500).json({ error: "Error en el servidor" });
+      return;
+    }
+
+    res.json(results);
+  });
+});
+
 // Iniciar el servidor
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Iniciando servidor en el puerto: ${PORT}`));
