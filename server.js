@@ -19,11 +19,11 @@ app.use(
 
 // Conexión a la base de datos
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "Vasquez",
-  password: "MVasquez#19",
-  database: "cticsac",
-  port: 3306,
+  host: "containers-us-west-165.railway.app",
+  user: "root",
+  password: "To0q02gZ2zJHxcy3GoD8",
+  database: "railway",
+  port: 7268,
 });
 
 connection.connect((err) => {
@@ -37,7 +37,7 @@ connection.connect((err) => {
 // Configuración de almacenamiento de archivos con multer
 const storage = multer.diskStorage({
   destination: "uploads/",
-  filename: function (req, file, cb) {
+  filename: function(req, file, cb) {
     cb(null, file.originalname);
   },
 });
