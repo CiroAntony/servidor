@@ -1,4 +1,4 @@
-./DB
-./uploads
-./node_modules
-./vercel.json
+node_modules
+uploads
+DB
+.git
