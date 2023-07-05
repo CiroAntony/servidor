@@ -453,8 +453,8 @@ app.post("/api/informes", (req, res) => {
       return;
     }
 
-    const informeId = results.insertId; // Obtener el id_informe generado
-    res.json({ id_informe: informeId }); // Devolver el id_informe al cliente
+    const informeId = results.insertId;
+    res.json({ id_informe: informeId });
   });
 });
 
