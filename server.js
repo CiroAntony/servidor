@@ -44,6 +44,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+app.get("/", (req, res) => {
+  res.send("Hey this is my API running 🥳");
+});
+
 // Ruta para el manejo de sesiones
 app.post("/api/login", (req, res) => {
   const { usuario, password } = req.body;
