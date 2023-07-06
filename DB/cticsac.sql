@@ -116,7 +116,6 @@ INSERT INTO rol (id_rol, rol) VALUES
 INSERT INTO usuario (usuario, password, nombres, apellidos, correo, telefono, id_rol, id_empresa, estado) VALUES
 ('giovanni', 'gio2023$', 'Giovanni', 'Risco Collazos', 'giova@gmail.com', '935627744', 2,4,1),
 ('aly', 'aly2023$', 'Aly Jesus', 'Laos Cortez', 'aly@gmail.com', '983900638', 2,6,1);
-('admin', 'admin$2023', 'Admin', 'Admin', 'admin@gmail.com', '955421566', 1);
 
 
 
