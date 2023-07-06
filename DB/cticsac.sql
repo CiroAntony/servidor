@@ -119,8 +119,6 @@ INSERT INTO usuario (usuario, password, nombres, apellidos, correo, telefono, id
 
 
 
-
-
 INSERT INTO servicios (nombre) VALUES ('SERVERS'), ('WORKSTATION'), ('NETWORK'), ('EMAIL'), ('WEBSITE'), ('PHONES'), ('INTERNAL');
 
 INSERT INTO preguntas (pregunta, servicio_id) VALUES
