@@ -19,11 +19,11 @@ app.use(
 
 // Conexión a la base de datos
 const connection = mysql.createConnection({
-  host: "containers-us-west-165.railway.app",
-  user: "root",
-  password: "To0q02gZ2zJHxcy3GoD8",
-  database: "railway",
-  port: 7268,
+  host: "aws.connect.psdb.cloud",
+  user: "yzkvwk11qaf8yxwe99ga",
+  password: "pscale_pw_P3goAYzzWfnYE0ReWACOW4Ounaal2wm9XginU4Ami3r",
+  database: "ctic",
+  ssl: true,
 });
 
 connection.connect((err) => {
@@ -37,7 +37,7 @@ connection.connect((err) => {
 // Configuración de almacenamiento de archivos con multer
 const storage = multer.diskStorage({
   destination: "uploads/",
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.originalname);
   },
 });
@@ -488,7 +488,7 @@ app.post("/api/respuestas", (req, res) => {
 app.get("/api/informes/:companyId/:serviceId", (req, res) => {
   const { companyId, serviceId } = req.params;
   const query =
-    "SELECT id_informe AS informeId, fecha_creacion AS fechaCreacion FROM informes WHERE empresa_id = ? AND servicio_id = ?";
+    "SELECT id_informe AS informeId, fecha_creacion AS fechaCreacion FROM informes WHERE empresa_id = ? AND servicio_id = ? ORDER BY informeId DESC";
   const values = [companyId, serviceId];
 
   connection.query(query, values, (err, results) => {
