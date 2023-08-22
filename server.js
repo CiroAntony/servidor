@@ -20,8 +20,8 @@ app.use(
 // Conexión a la base de datos
 const connection = mysql.createConnection({
   host: "aws.connect.psdb.cloud",
-  user: "33ykoz9v4sa9278op9zv",
-  password: "pscale_pw_Yfp3X5I9omhiWYypuND5jj2VAZo0NgVXoPrDmddsXxX",
+  user: "tn6hv5uo39sa11quemzr",
+  password: "pscale_pw_Ina3S1GI6XFCnFUp9i9iOx6rG0mPOfKDZvxh3oZBCBQ",
   database: "ctic",
   ssl: {
     rejectUnauthorized: false,
