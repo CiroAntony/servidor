@@ -1,5 +1,5 @@
 const express = require("express");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const session = require("express-session");
@@ -18,16 +18,8 @@ app.use(
   })
 );
 
-// Conexión a la base de datos
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+// Conexión a la base de datos usando mysql2
+const connection = mysql.createConnection(process.env.DATABASE_URL);
 
 connection.connect((err) => {
   if (err) {
