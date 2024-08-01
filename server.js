@@ -5,13 +5,14 @@ const cors = require("cors");
 const session = require("express-session");
 const multer = require("multer");
 const fs = require("fs");
+require('dotenv').config(); // Cargar variables de entorno desde el archivo .env
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 app.use(
   session({
-    secret: "qwertyuiop",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
@@ -19,10 +20,10 @@ app.use(
 
 // Conexión a la base de datos
 const connection = mysql.createConnection({
-  host: "aws.connect.psdb.cloud",
-  user: "ntxvfqm8tikf97j3et55",
-  password: "pscale_pw_Kkum92rN6w5Q0ZrodNxKRVKq3Gh25AaszTiuiHtF6y",
-  database: "ctic",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   ssl: {
     rejectUnauthorized: false,
   },
